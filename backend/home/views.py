@@ -27,16 +27,17 @@ def devices_graph(request, device_uid=None):
         # print(x.get('temperature'))
 
 
-    data = [{"time":"2022-01-01T00:00:00","temperature":20,"humidity":50},
-            {"time":"2022-01-02T00:00:00","temperature":22,"humidity":45},
-            {"time":"2022-01-03T00:00:00","temperature":24,"humidity":40},
-            {"time":"2022-01-04T00:00:00","temperature":25,"humidity":35},
-            {"time":"2022-01-05T00:00:00","temperature":28,"humidity":30}]
+    data = [{"time":"2023-01-25T00:00:00"},
+            {"time":"2023-01-24T00:00:00"},
+            {"time":"2023-01-23T00:00:00"},
+            {"time":"2023-01-26T00:00:00"},
+            {"time":"2023-01-27T00:00:00"}]
     json_data = json.dumps(data)
-    print(json.dumps(temp.json()))
+    temp = json.dumps(temp.json())
+    humidity = json.dumps(humidity.json())
     context = {
-        'humidity' : humidity.json(),
-        'temp' : temp.json(),
+        'humidity' : humidity,
+        'temp' : temp,
         'json_data': json_data,
     }
     # print(device_uid)

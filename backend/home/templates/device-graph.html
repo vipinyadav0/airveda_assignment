@@ -11,52 +11,50 @@
 </a>
   </div>
 <div class="shadow-lg rounded-lg overflow-hidden">
-    <div class="py-3 px-5 bg-gray-50 text-center text-5xl">Device Graph</div>
-    <canvas class="p-10" id="chartBar"></canvas>
-  </div>
-
-  {{ temp}}
-  {{ humidity}}
-  
+    <div class="py-3 px-5 bg-gray-50 text-center text-5xl">Device Graph</div>  
   <!-- Required chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <!-- Chart bar -->
- <script>
-    var myVariable = "{{ temp }}";
-    console.log(myVariable)
-    const labelsBarChart = [
-     "Humidity",
-     "Temperature"
-    ];
-    const arrayRange = (start, stop, step) =>
-    Array.from(
-    { length: (stop - start) / step + 1 },
-    (value, index) => start + index * step
-    );
-    const dataBarChart = {
-      labels: labelsBarChart,
-      datasets: [
-        {
-          label: "",
-          backgroundColor: "hsl(252, 82.9%, 67.8%)",
-          borderColor: "hsl(252, 82.9%, 67.8%)",
-          data: arrayRange(2, 12, 1),
-        },
-      ],
-    };
-  
-    const configBarChart = {
-      type: "bar",
-      data: dataBarChart,
-      options: {},
-    };
-  
-    var chartBar = new Chart(
-      document.getElementById("chartBar"),
-      configBarChart
-    );
-  </script>
-                  
+<!-- my_template.html -->
+        <canvas id="myChart"></canvas>
+        <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [{{ json_data|safe }}][0].map(item => item.time),
+                    datasets: [{
+                        label: 'Temperature',
+                        data: [{{ temp|safe }}][0].map(item => item.temperature),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },{
+                        label: 'Humidity',
+                        data: [{{ humidity|safe }}][0].map(item => item.humidity),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+
+      </div>
+{% comment %} 
+      {{temp}}
+      {{ json_data}}
+
+                   {% endcomment %}
 {% endblock content %}
 
