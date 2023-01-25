@@ -5,7 +5,7 @@ The first thing to do is to clone the repository:
 
 ```sh
 $ git clone https://github.com/vipinyadav0/airveda_assignment.git
-$ cd airveda-assignment
+$ cd airveda_assignment
 ```
 
 Create a virtual environment to install dependencies in and activate it:
