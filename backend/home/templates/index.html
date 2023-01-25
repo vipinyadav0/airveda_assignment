@@ -1,20 +1,142 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content %}
-<canvas id="myChart" width="400" height="100"></canvas>  
+
+<h1 class="text-center text-5xl">Devices</h1>
+<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <thead class="bg-white border-b">
+              <tr>
+                
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Device UID
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Device Name
+                </th>
+            
+              </tr>
+            </thead>
 {% for device in devices %}
-<div class="device_data">
-<h3>Device UID: </h3>
-{{ device.uid }}
-<h3>Device Name: </h3>
-{{ device.name}}
+
+            <tbody>
+
+              <tr class=" border-b">
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    <a href="{% url 'home:devices_graph' device.uid %}">
+                {{ device.uid }}
+                    </a>            
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    {{ device.name }}
+
+                </td>
+            
+              </tr>
+
+            </tbody>
+            {% endfor %}
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br><br>
+{% for data in device_data %}
+
+<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <thead class="bg-white border-b">
+              <tr>
+                
+                {% comment %} <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Device UID
+                </th> {% endcomment %}
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Temparature
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Humidity
+                  </th>
+            
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-gray-100 border-b">
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+{{ data.humidity }}
+            
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    {{ data.temperature }}
+
+                </td>
+            
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endfor %}
+
+<div class="shadow-lg rounded-lg overflow-hidden">
+    <div class="py-3 px-5 bg-gray-50 text-center text-5xl">Bar chart</div>
+    <canvas class="p-10" id="chartBar"></canvas>
+  </div>
+  
+  <!-- Required chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Chart bar -->
+  <script>
+    const labelsBarChart = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+    ];
+    const dataBarChart = {
+      labels: labelsBarChart,
+      datasets: [
+        {
+          label: "",
+          backgroundColor: "hsl(252, 82.9%, 67.8%)",
+          borderColor: "hsl(252, 82.9%, 67.8%)",
+          data: [0, 10, 5, 2, 20, 30, 45],
+        },
+      ],
+    };
+  
+    const configBarChart = {
+      type: "bar",
+      data: dataBarChart,
+      options: {},
+    };
+  
+    var chartBar = new Chart(
+      document.getElementById("chartBar"),
+      configBarChart
+    );
+  </script>
+
 <form action = "" method = "get">
     {% csrf_token %}
     Select Date and Time<br><input type="datetime-local" name="datetime"><br>
     <input type="submit" value="Submit">
 </form>
-</div>
 {% endblock content %}
 
 {%block scripts%}

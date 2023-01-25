@@ -9,9 +9,9 @@ class DeviceSerializer(serializers.ModelSerializer):
 class TemperatureReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = TemperatureReading
-        fields = ('temperature', 'created_at')
+        fields = ('temperature',)
 
 class HumidityReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = HumidityReading
-        fields = ('humidity', 'created_at')
+        fields = ('humidity',)
